@@ -8,7 +8,22 @@ from tensorflow.keras.applications.mobilenet_v2 import (
     decode_predictions
 )
 from PIL import Image
+# Function to set background color
+def set_bg_color_and_title(bg_color,title_color):
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-color: {bg_color};
+        }}
+        h1{{
+            color:{title_color};
+        }}
 
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 # Function to load the pretrained MobileNetV2 model
 def load_model():
     model = MobileNetV2(weights="imagenet")
@@ -35,6 +50,7 @@ def get_predictions(model, image):
 # Main Streamlit app logic
 def main():
     st.set_page_config(page_title="Animal Image Classifier", page_icon="🐾", layout="centered")
+    set_bg_color_and_title("#09475C", "black")  # Light blue background, black title
 
     st.title("🐾 AI-Powered Animal Identifier")
     st.write("Upload a photo of an animal and let the AI guess what it is!")
@@ -68,7 +84,7 @@ def main():
                             highest_prob = prob
                             most_likely_label = label
 
-                    st.markdown(f"### ✅ The AI believes this is most likely a **{most_likely_label.replace('_', ' ').title()}**.")
+                    st.markdown(f"### ✅ This is most likely a **{most_likely_label.replace('_', ' ').title()}**.")
 
 # Run the app
 if __name__ == "__main__":
